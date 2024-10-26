@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/FirebaseConfig';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function TemasScreen({ navigation }){
   const [temasList, setTemasList] = useState([]);
@@ -22,12 +23,16 @@ export default function TemasScreen({ navigation }){
   return (
     <ScrollView style={styles.container}>
       {temasList.map((tema) => (
-        <View key={tema.id} style={styles.card}>
+        <TouchableOpacity 
+          key={tema.id} 
+          style={styles.card} 
+          onPress={() => navigation.navigate('TemaScreen', { temaId: tema.id })}
+        >
           <Text style={styles.title}>{tema.title}</Text>
           <Text style={styles.description}>{tema.description}</Text>
           <Text style={styles.author}>Creado por: {tema.author}</Text>
           <Text style={styles.date}>Fecha: {tema.createdAt.toDate().toLocaleDateString()}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
